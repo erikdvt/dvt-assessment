@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D40014C0304324D90084FAF1 /* WeatherApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = WeatherApp.xctestplan; sourceTree = "<group>"; };
 		D414AC86303F0A9B001EE510 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D414AC95303F0A9D001EE510 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D414AC9F303F0A9D001EE510 /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +71,7 @@
 		D414AC7D303F0A9B001EE510 = {
 			isa = PBXGroup;
 			children = (
+				D40014C0304324D90084FAF1 /* WeatherApp.xctestplan */,
 				D414AC88303F0A9B001EE510 /* WeatherApp */,
 				D414AC98303F0A9D001EE510 /* WeatherAppTests */,
 				D414AC87303F0A9B001EE510 /* Products */,
