@@ -20,6 +20,6 @@ jobs:
       - name: Build and test
         run: |
           xcodebuild test \
-            -project WeatherApp/WeawtherApp.xcodeproj \
-            -scheme WeawtherApp \
+            -project WeatherApp/WeatherApp.xcodeproj \
+            -scheme WeatherApp \
             -destination 'platform=iOS Simulator,name=iPhone 16'
