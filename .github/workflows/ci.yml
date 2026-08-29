@@ -22,4 +22,4 @@ jobs:
           xcodebuild test \
             -project WeatherApp/WeatherApp.xcodeproj \
             -scheme WeatherApp \
-            -destination 'platform=iOS Simulator,name=iPhone 16'
+            -destination 'platform=iOS Simulator,name=iPhone 17'
