@@ -24,49 +24,57 @@ struct ContentView: View {
     let currentWeather = CurrentWeather(condition: .cloudy, min: 12, current: 15, max: 18)
     
     var body: some View {
-        VStack(spacing: 0) {
-            VStack {
-                Spacer()
+        let portraitHeight = max(
+            UIScreen.main.bounds.width,
+            UIScreen.main.bounds.height
+        )
+        
+        ScrollView {
+            VStack(spacing: 0) {
+                VStack {
+                    Spacer()
+                    
+                    Text("\(currentWeather.current)°")
+                        .font(.system(size: 72, weight: .bold))
+                    
+                    Text(currentWeather.condition.displayName.uppercased())
+                        .font(.title2)
+                    
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: portraitHeight * 0.5)
+                .background {
+                    Image(currentWeather.condition.backgroundImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                }
                 
-                Text("\(currentWeather.current)°")
-                    .font(.system(size: 72, weight: .bold))
-                
-                Text(currentWeather.condition.displayName.uppercased())
-                    .font(.title2)
-                
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-            .background {
-                Image(currentWeather.condition.backgroundImage)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-            }
-            
-            VStack(alignment: .leading, spacing: 2) {
-                CurrentWeatherRow(weatherForecast: currentWeather)
-                
-                Rectangle()
-                    .fill(.white)
-                    .frame(height: 1)
-                    .padding(.horizontal, -16)
-                
-                VStack(spacing: 0) {
-                    ForEach(fiveDayForecast.indices, id: \.self) { index in
-                        WeatherForecastRow(weatherForecast: fiveDayForecast[index])
+                VStack(alignment: .leading, spacing: 2) {
+                    CurrentWeatherRow(weatherForecast: currentWeather)
+                    
+                    Rectangle()
+                        .fill(.white)
+                        .frame(height: 1)
+                        .padding(.horizontal, -16)
+                    
+                    VStack(spacing: 0) {
+                        ForEach(fiveDayForecast.indices, id: \.self) { index in
+                            WeatherForecastRow(weatherForecast: fiveDayForecast[index])
+                        }
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .padding()
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .padding()
         }
         .foregroundStyle(.white)
         .background {
             Color(currentWeather.condition.backgroundColor)
                 .ignoresSafeArea()
         }
+        .ignoresSafeArea(.container, edges: .top)
     }
 }
 
