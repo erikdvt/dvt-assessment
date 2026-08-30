@@ -6,7 +6,16 @@
 //
 
 struct WeatherForecast {
-    var day: String
-    var condition: WeatherCondition
-    var temperature: Int
+    var day: String?
+    var condition: WeatherCondition?
+    var temperature: Int?
+}
+
+extension WeatherForecast {
+    
+    init(response: List?, day: String?) {
+        self.condition = WeatherCondition(weatherId: response?.weather.first?.id)
+        self.temperature = response?.temp?.day.map(Int.init)
+        self.day = day
+    }
 }

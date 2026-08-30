@@ -10,6 +10,19 @@ enum WeatherCondition {
     case cloudy
     case rainy
     
+    init?(weatherId: Int?) {
+        guard let weatherId else { return nil }
+        
+        switch weatherId {
+        case ..<800:
+            self = .rainy
+        case 800:
+            self = .sunny
+        default:
+            self = .cloudy
+        }
+    }
+    
     var displayName: String {
         switch self {
         case .sunny:
