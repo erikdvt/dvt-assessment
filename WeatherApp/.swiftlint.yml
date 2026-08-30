@@ -52,6 +52,9 @@ function_body_length:
 
 reporter: "xcode"
 
+vertical_whitespace:
+  max_empty_lines: 1
+
 function_parameter_count:
   warning: 10
   error: 12
