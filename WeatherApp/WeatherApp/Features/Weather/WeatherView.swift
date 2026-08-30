@@ -12,16 +12,7 @@ struct WeatherView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
-    
-    let fiveDayForecast = [
-        WeatherForecast(day: "Monday", condition: .sunny, temperature: 22),
-        WeatherForecast(day: "Tuesday", condition: .cloudy, temperature: 17),
-        WeatherForecast(day: "Wednesday", condition: .rainy, temperature: 10),
-        WeatherForecast(day: "Thursday", condition: .sunny, temperature: 25),
-        WeatherForecast(day: "Friday", condition: .sunny, temperature: 21)
-    ]
-    
-    let currentWeather = CurrentWeather(condition: .cloudy, min: 12, current: 15, max: 18)
+    @StateObject var viewModel: WeatherViewModel
     
     var body: some View {
         let portraitHeight = max(
@@ -34,10 +25,10 @@ struct WeatherView: View {
                 VStack {
                     Spacer()
                     
-                    Text("\(currentWeather.current)°")
+                    Text("\(viewModel.currentWeather.current)°")
                         .font(.system(size: 72, weight: .bold))
                     
-                    Text(currentWeather.condition.displayName.uppercased())
+                    Text(viewModel.currentWeather.condition.displayName.uppercased())
                         .font(.title2)
                     
                     Spacer()
@@ -45,14 +36,14 @@ struct WeatherView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: portraitHeight * 0.5)
                 .background {
-                    Image(currentWeather.condition.backgroundImage)
+                    Image(viewModel.currentWeather.condition.backgroundImage)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: .infinity)
                 }
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    CurrentWeatherRow(weatherForecast: currentWeather)
+                    CurrentWeatherRow(weatherForecast: viewModel.currentWeather)
                     
                     Rectangle()
                         .fill(.white)
@@ -60,8 +51,8 @@ struct WeatherView: View {
                         .padding(.horizontal, -16)
                     
                     VStack(spacing: 0) {
-                        ForEach(fiveDayForecast.indices, id: \.self) { index in
-                            WeatherForecastRow(weatherForecast: fiveDayForecast[index])
+                        ForEach(viewModel.fiveDayForecast.indices, id: \.self) { index in
+                            WeatherForecastRow(weatherForecast: viewModel.fiveDayForecast[index])
                         }
                     }
                 }
@@ -69,12 +60,13 @@ struct WeatherView: View {
                 .padding()
             }
         }
+        .ignoresSafeArea(.container, edges: .top)
         .foregroundStyle(.white)
         .background {
-            Color(currentWeather.condition.backgroundColor)
+            Color(viewModel.currentWeather.condition.backgroundColor)
                 .ignoresSafeArea()
         }
-        .ignoresSafeArea(.container, edges: .top)
+        .task { await viewModel.fetchWeather()}
     }
 }
 
@@ -137,6 +129,6 @@ struct WeatherForecastRow: View {
 }
 
 #Preview {
-    WeatherView()
+    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager()))
         .modelContainer(for: Item.self, inMemory: true)
 }
