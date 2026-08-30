@@ -27,7 +27,8 @@ final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
         components?.queryItems = [
             URLQueryItem(name: "lat", value: String(coordinates.latitude)),
             URLQueryItem(name: "lon", value: String(coordinates.latitude)),
-            URLQueryItem(name: "appid", value: apiKey)
+            URLQueryItem(name: "appid", value: apiKey),
+            URLQueryItem(name: "units", value: "metric")
         ]
 
         return try await networkManager.fetchRequest(url: components?.url, errorType: CurrentWeatherResponse.self)
@@ -41,7 +42,8 @@ final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
             URLQueryItem(name: "lat", value: String(coordinates.latitude)),
             URLQueryItem(name: "lon", value: String(coordinates.latitude)),
             URLQueryItem(name: "cnt", value: "5"),
-            URLQueryItem(name: "appid", value: apiKey)
+            URLQueryItem(name: "appid", value: apiKey),
+            URLQueryItem(name: "units", value: "metric")
         ]
 
         return try await networkManager.fetchRequest(url: components?.url, errorType: WeatherForecastResponse.self)
