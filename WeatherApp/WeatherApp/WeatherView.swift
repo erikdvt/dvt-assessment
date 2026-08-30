@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  WeatherView.swift
 //  WeatherApp
 //
 //  Created by Erik Egers on 2026/08/26.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct WeatherView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Query private var items: [Item]
@@ -202,6 +202,6 @@ struct CurrentWeather {
 }
 
 #Preview {
-    ContentView()
+    WeatherView()
         .modelContainer(for: Item.self, inMemory: true)
 }
