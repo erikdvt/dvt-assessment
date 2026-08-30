@@ -9,39 +9,39 @@ import Foundation
 
 // MARK: - WeatherForecastResponse
 struct WeatherForecastResponse: Codable {
-    let city: City
-    let cod: String
-    let message: Double
-    let cnt: Int
+    let city: City?
+    let cod: String?
+    let message: Double?
+    let cnt: Int?
     let list: [List]
 }
 
 // MARK: - City
 struct City: Codable {
-    let id: Int
-    let name: String
-    let coord: Coord
-    let country: String
-    let population: Int
-    let timezone: Int
+    let id: Int?
+    let name: String?
+    let coord: Coord?
+    let country: String?
+    let population: Int?
+    let timezone: Int?
 }
 
 // MARK: - List
 struct List: Codable {
-    let dt: Int
-    let sunrise: Int
-    let sunset: Int
-    let temp: Temp
-    let feelsLike: FeelsLike
-    let pressure: Int
-    let humidity: Int
+    let dt: Int?
+    let sunrise: Int?
+    let sunset: Int?
+    let temp: Temp?
+    let feelsLike: FeelsLike?
+    let pressure: Int?
+    let humidity: Int?
     let weather: [Weather]
-    let speed: Double
-    let deg: Int
-    let gust: Double
-    let clouds: Int
-    let pop: Double
-    let rain: Double
+    let speed: Double?
+    let deg: Int?
+    let gust: Double?
+    let clouds: Int?
+    let pop: Double?
+    let rain: Double?
 
     enum CodingKeys: String, CodingKey {
         case dt = "dt"
@@ -63,25 +63,18 @@ struct List: Codable {
 
 // MARK: - FeelsLike
 struct FeelsLike: Codable {
-    let day: Double
-    let night: Double
-    let eve: Double
-    let morn: Double
-
-    enum CodingKeys: String, CodingKey {
-        case day = "day"
-        case night = "night"
-        case eve = "eve"
-        case morn = "morn"
-    }
+    let day: Double?
+    let night: Double?
+    let eve: Double?
+    let morn: Double?
 }
 
 // MARK: - Temp
 struct Temp: Codable {
-    let day: Double
-    let min: Double
-    let max: Double
-    let night: Double
-    let eve: Double
-    let morn: Double
+    let day: Double?
+    let min: Double?
+    let max: Double?
+    let night: Double?
+    let eve: Double?
+    let morn: Double?
 }

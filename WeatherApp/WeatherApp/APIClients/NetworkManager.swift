@@ -9,11 +9,9 @@ import Foundation
 
 final class NetworkManager {
 
-    func fetchRequest<T: Decodable, E: Decodable>(
-        url: URL?,
+    func fetchRequest<T: Decodable, E: Decodable>(url: URL?,
         headers: [String: String] = [:],
-        errorType: E.Type
-    ) async throws -> T {
+        errorType: E.Type) async throws -> T {
         guard let endpointUrl = url else { throw CustomError.invalidUrl }
 
         var request = URLRequest(url: endpointUrl)
@@ -35,14 +33,11 @@ final class NetworkManager {
         return try decode(T.self, from: data, errorType: errorType)
     }
 
-    private func checkHTTPStatus<E: Decodable>(
-        data: Data,
+    private func checkHTTPStatus<E: Decodable>(data: Data,
         response: URLResponse,
-        errorType: E.Type
-    ) throws {
+        errorType: E.Type) throws {
         guard let httpResponse = response as? HTTPURLResponse else { return }
         if !(200...299).contains(httpResponse.statusCode) {
-            // Try decoding the API-specific error
             if let apiError = try? JSONDecoder().decode(E.self, from: data) {
                 throw CustomError.apiError(apiError)
             } else {
@@ -51,11 +46,9 @@ final class NetworkManager {
         }
     }
 
-    private func decode<T: Decodable, E: Decodable>(
-        _ type: T.Type,
+    private func decode<T: Decodable, E: Decodable>( _ type: T.Type,
         from data: Data,
-        errorType: E.Type
-    ) throws -> T {
+        errorType: E.Type) throws -> T {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
