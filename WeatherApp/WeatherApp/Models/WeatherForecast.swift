@@ -15,7 +15,7 @@ extension WeatherForecast {
     
     init(response: List?, day: String?) {
         self.condition = WeatherCondition(weatherId: response?.weather.first?.id)
-        self.temperature = response?.temp?.day.map(Int.init)
+        self.temperature = response?.main?.temp.map(Int.init)
         self.day = day
     }
 }

@@ -9,11 +9,38 @@ import Foundation
 
 // MARK: - WeatherForecastResponse
 struct WeatherForecastResponse: Codable {
-    let city: City?
     let cod: String?
-    let message: Double?
+    let message: Int?
     let cnt: Int?
     let list: [List]
+    let city: City?
+}
+
+// MARK: - List
+struct List: Codable {
+    let dt: Int?
+    let main: Main?
+    let weather: [Weather]
+    let clouds: Clouds?
+    let wind: Wind?
+    let visibility: Int?
+    let pop: Double?
+    let rain: Rain?
+    let sys: Sys?
+    let dtTxt: String?
+
+    enum CodingKeys: String, CodingKey {
+        case dt = "dt"
+        case main = "main"
+        case weather = "weather"
+        case clouds = "clouds"
+        case wind = "wind"
+        case visibility = "visibility"
+        case pop = "pop"
+        case rain = "rain"
+        case sys = "sys"
+        case dtTxt = "dt_txt"
+    }
 }
 
 // MARK: - City
@@ -24,57 +51,6 @@ struct City: Codable {
     let country: String?
     let population: Int?
     let timezone: Int?
-}
-
-// MARK: - List
-struct List: Codable {
-    let dt: Int?
     let sunrise: Int?
     let sunset: Int?
-    let temp: Temp?
-    let feelsLike: FeelsLike?
-    let pressure: Int?
-    let humidity: Int?
-    let weather: [Weather]
-    let speed: Double?
-    let deg: Int?
-    let gust: Double?
-    let clouds: Int?
-    let pop: Double?
-    let rain: Double?
-
-    enum CodingKeys: String, CodingKey {
-        case dt = "dt"
-        case sunrise = "sunrise"
-        case sunset = "sunset"
-        case temp = "temp"
-        case feelsLike = "feels_like"
-        case pressure = "pressure"
-        case humidity = "humidity"
-        case weather = "weather"
-        case speed = "speed"
-        case deg = "deg"
-        case gust = "gust"
-        case clouds = "clouds"
-        case pop = "pop"
-        case rain = "rain"
-    }
-}
-
-// MARK: - FeelsLike
-struct FeelsLike: Codable {
-    let day: Double?
-    let night: Double?
-    let eve: Double?
-    let morn: Double?
-}
-
-// MARK: - Temp
-struct Temp: Codable {
-    let day: Double?
-    let min: Double?
-    let max: Double?
-    let night: Double?
-    let eve: Double?
-    let morn: Double?
 }

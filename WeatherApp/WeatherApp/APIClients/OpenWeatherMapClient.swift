@@ -36,12 +36,11 @@ final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
     
     func getFiveDayWeatherForecast(coordinates: CLLocationCoordinate2D) async throws -> WeatherForecastResponse {
         
-        var components = URLComponents(string: "api.openweathermap.org/data/2.5/forecast/daily")
+        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/forecast")
 
         components?.queryItems = [
             URLQueryItem(name: "lat", value: String(coordinates.latitude)),
             URLQueryItem(name: "lon", value: String(coordinates.latitude)),
-            URLQueryItem(name: "cnt", value: "5"),
             URLQueryItem(name: "appid", value: apiKey),
             URLQueryItem(name: "units", value: "metric")
         ]
