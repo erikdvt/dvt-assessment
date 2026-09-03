@@ -1,5 +1,5 @@
 //
-//  OpenWeatherMapClient.swift
+//  WeatherClient.swift
 //  WeatherApp
 //
 //  Created by Erik Egers on 2026/08/30.
@@ -8,14 +8,14 @@
 import Foundation
 import CoreLocation
 
-protocol OpenWeatherMapClient {
+protocol WeatherClientType {
     
     func getCurrentWeather(coordinates: CLLocationCoordinate2D) async throws -> CurrentWeatherResponse
     func getFiveDayWeatherForecast(coordinates: CLLocationCoordinate2D) async throws -> WeatherForecastResponse
     
 }
 
-final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
+final class WeatherClient: WeatherClientType {
 
     private let networkManager = NetworkManager()
     private let apiKey = "dec9a20db1796c9d8866e4f4b60ae74d"

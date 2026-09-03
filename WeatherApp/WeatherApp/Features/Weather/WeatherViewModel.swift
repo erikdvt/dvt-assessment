@@ -25,10 +25,10 @@ final class WeatherViewModel: ObservableObject {
     @Published var currentWeather: CurrentWeather?
     
     private let locationManager: LocationManagerType
-    private let weatherService: OpenWeatherMapClient
+    private let weatherService: WeatherClientType
     
     init(locationManager: LocationManagerType,
-         weatherService: OpenWeatherMapClient) {
+         weatherService: WeatherClientType) {
         self.locationManager = locationManager
         self.weatherService = weatherService
     }

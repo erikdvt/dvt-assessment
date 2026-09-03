@@ -174,6 +174,6 @@ struct WeatherForecastRow: View {
 }
 
 #Preview {
-    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: OpenWeatherMapAPIClient()))
+    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
         .modelContainer(for: Item.self, inMemory: true)
 }
