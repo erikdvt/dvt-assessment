@@ -58,6 +58,14 @@ struct WeatherViewModelTests {
         #expect(viewModel.currentWeather?.condition == .sunny)
         
         #expect(viewModel.fiveDayForecast.count == 5)
+
+        #expect(viewModel.fiveDayForecast[0].temperature == 20)
+        #expect(viewModel.fiveDayForecast[1].temperature == 19)
+        #expect(viewModel.fiveDayForecast[2].temperature == 8)
+        #expect(viewModel.fiveDayForecast[3].temperature == 14)
+        #expect(viewModel.fiveDayForecast[4].temperature == 18)
+
+        #expect(viewModel.fiveDayForecast.allSatisfy { $0.day != nil })
     }
 
     @Test
