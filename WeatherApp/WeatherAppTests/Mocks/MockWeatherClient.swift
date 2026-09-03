@@ -41,14 +41,29 @@ class MockWeatherClient: WeatherClientType {
     
     func getFiveDayWeatherForecast(coordinates: CLLocationCoordinate2D) async throws -> WeatherApp.WeatherForecastResponse {
         if getWeatherForecastShouldSucceed {
+            
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            
+            func timestamp(forDaysFromToday days: Int) -> Int {
+                let date = calendar.date(
+                    byAdding: .day,
+                    value: days,
+                    to: today
+                )!
+                
+                return Int(date.timeIntervalSince1970)
+            }
+            
             return WeatherForecastResponse(
                 cod: nil,
                 message: nil,
                 cnt: nil,
                 list: [
                     List(
-                        dt: nil,
-                        main: Main(temp: 20.0, feelsLike: nil, tempMin: 12.0, tempMax: 21.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
+                        dt: timestamp(forDaysFromToday: 1),
+                        main: Main(
+                            temp: 20.0, feelsLike: nil, tempMin: 12.0, tempMax: 21.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
                         weather: [],
                         clouds: nil,
                         wind: nil,
@@ -58,8 +73,9 @@ class MockWeatherClient: WeatherClientType {
                         sys: nil,
                         dtTxt: nil),
                     List(
-                        dt: nil,
-                        main: Main(temp: 19.0, feelsLike: nil, tempMin: 11.0, tempMax: 22.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
+                        dt: timestamp(forDaysFromToday: 2),
+                        main: Main(
+                            temp: 19.0, feelsLike: nil, tempMin: 11.0, tempMax: 22.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
                         weather: [],
                         clouds: nil,
                         wind: nil,
@@ -69,8 +85,9 @@ class MockWeatherClient: WeatherClientType {
                         sys: nil,
                         dtTxt: nil),
                     List(
-                        dt: nil,
-                        main: Main(temp: 8.0, feelsLike: nil, tempMin: 16.0, tempMax: 28.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
+                        dt: timestamp(forDaysFromToday: 3),
+                        main: Main(
+                            temp: 8.0, feelsLike: nil, tempMin: 16.0, tempMax: 28.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
                         weather: [],
                         clouds: nil,
                         wind: nil,
@@ -80,8 +97,9 @@ class MockWeatherClient: WeatherClientType {
                         sys: nil,
                         dtTxt: nil),
                     List(
-                        dt: nil,
-                        main: Main(temp: 14.0, feelsLike: nil, tempMin: 26.0, tempMax: 30.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
+                        dt: timestamp(forDaysFromToday: 4),
+                        main: Main(
+                            temp: 14.0, feelsLike: nil, tempMin: 26.0, tempMax: 30.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
                         weather: [],
                         clouds: nil,
                         wind: nil,
@@ -91,8 +109,9 @@ class MockWeatherClient: WeatherClientType {
                         sys: nil,
                         dtTxt: nil),
                     List(
-                        dt: nil,
-                        main: Main(temp: 18.0, feelsLike: nil, tempMin: 29.0, tempMax: 35.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
+                        dt: timestamp(forDaysFromToday: 5),
+                        main: Main(
+                            temp: 18.0, feelsLike: nil, tempMin: 29.0, tempMax: 35.0, pressure: nil, humidity: nil, seaLevel: nil, grndLevel: nil),
                         weather: [],
                         clouds: nil,
                         wind: nil,
@@ -100,11 +119,11 @@ class MockWeatherClient: WeatherClientType {
                         pop: nil,
                         rain: nil,
                         sys: nil,
-                        dtTxt: nil),
+                        dtTxt: nil)
                 ],
                 city: nil)
-            
         } else {
             throw MockError.forecastNetworkError
         }
     }
+}

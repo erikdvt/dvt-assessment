@@ -10,7 +10,7 @@ import SwiftUI
 import CoreLocation
 import Combine
 
-enum WeatherViewState {
+enum WeatherViewState: Equatable {
     case idle
     case loading
     case loaded
