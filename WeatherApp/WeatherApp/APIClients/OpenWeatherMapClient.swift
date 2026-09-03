@@ -26,7 +26,7 @@ final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
 
         components?.queryItems = [
             URLQueryItem(name: "lat", value: String(coordinates.latitude)),
-            URLQueryItem(name: "lon", value: String(coordinates.latitude)),
+            URLQueryItem(name: "lon", value: String(coordinates.longitude)),
             URLQueryItem(name: "appid", value: apiKey),
             URLQueryItem(name: "units", value: "metric")
         ]
@@ -40,7 +40,7 @@ final class OpenWeatherMapAPIClient: OpenWeatherMapClient {
 
         components?.queryItems = [
             URLQueryItem(name: "lat", value: String(coordinates.latitude)),
-            URLQueryItem(name: "lon", value: String(coordinates.latitude)),
+            URLQueryItem(name: "lon", value: String(coordinates.longitude)),
             URLQueryItem(name: "appid", value: apiKey),
             URLQueryItem(name: "units", value: "metric")
         ]
