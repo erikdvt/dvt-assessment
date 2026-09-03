@@ -10,11 +10,17 @@ import SwiftUI
 import CoreLocation
 import Combine
 
+enum WeatherViewState {
+    case idle
+    case loading
+    case loaded
+    case failed(String)
+}
+
 @MainActor
 final class WeatherViewModel: ObservableObject {
     
-    @Published var showError: Bool = false
-    @Published var errorMessage: String?
+    @Published private(set) var state: WeatherViewState = .idle
     @Published var fiveDayForecast: [WeatherForecast] = []
     @Published var currentWeather: CurrentWeather?
     
@@ -28,6 +34,7 @@ final class WeatherViewModel: ObservableObject {
     }
     
     func fetchWeather() async {
+        state = .loading
         do {
             try await locationManager.requestLocationPermission()
             let coordinates = try await locationManager.getCurrentLocation()
@@ -37,10 +44,9 @@ final class WeatherViewModel: ObservableObject {
             
             currentWeather = CurrentWeather(response: current)
             fiveDayForecast = makeForecasts(responses: forecast.list)
+            state = .loaded
         } catch {
-            errorMessage = "Failed to get your location.\nPlease try again later."
-            showError = true
-            print("Failed to get location: \(error)")
+            state = .failed(error.localizedDescription)
         }
     }
     
