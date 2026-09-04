@@ -19,7 +19,8 @@ struct WeatherViewModelTests {
         service: MockWeatherClient = MockWeatherClient()) -> WeatherViewModel {
         WeatherViewModel(
             locationManager: location,
-            weatherService: service
+            weatherService: service,
+            favouritesStore: MockFavouritesStore()
         )
     }
 

@@ -24,14 +24,41 @@ final class WeatherViewModel: ObservableObject {
     @Published var fiveDayForecast: [WeatherForecast] = []
     @Published var currentWeather: CurrentWeather?
     @Published private(set) var currentCoordinates: CLLocationCoordinate2D?
+    @Published private(set) var favourites: [WeatherFavourite] = []
     
     private let locationManager: LocationManagerType
     private let weatherService: WeatherClientType
+    private let favouritesStore: FavouritesStoreType
     
     init(locationManager: LocationManagerType,
-         weatherService: WeatherClientType) {
+         weatherService: WeatherClientType,
+         favouritesStore: FavouritesStoreType) {
         self.locationManager = locationManager
         self.weatherService = weatherService
+        self.favouritesStore = favouritesStore
+        loadFavourites()
+    }
+
+    func toggleFavourite() {
+        guard let city = currentWeather?.city,
+              let coordinates = currentCoordinates else { return }
+
+        if let favourite = favourites.first(where: { $0.city == city }) {
+            favouritesStore.delete(favourite)
+        } else {
+            favouritesStore.add(
+                city: city,
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
+            )
+        }
+
+        loadFavourites()
+    }
+
+    func deleteFavourite(_ favourite: WeatherFavourite) {
+        favouritesStore.delete(favourite)
+        loadFavourites()
     }
     
     var lastUpdated: String {
@@ -97,5 +124,9 @@ final class WeatherViewModel: ObservableObject {
                     day: day
                 )
             }
+    }
+
+    private func loadFavourites() {
+        favourites = favouritesStore.fetch()
     }
 }

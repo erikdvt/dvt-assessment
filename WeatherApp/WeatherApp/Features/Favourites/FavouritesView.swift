@@ -6,12 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct FavouritesView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
-    @Query private var favourites: [WeatherFavourite]
+    let favourites: [WeatherFavourite]
+    let onDelete: (WeatherFavourite) -> Void
 
     let onSelect: (WeatherFavourite) async -> Void
     
@@ -28,8 +27,7 @@ struct FavouritesView: View {
                 }
             }
             .onDelete { offsets in
-                offsets.forEach { modelContext.delete(favourites[$0]) }
-                try? modelContext.save()
+                offsets.forEach { onDelete(favourites[$0]) }
             }
         }
         .navigationTitle("Favourites")

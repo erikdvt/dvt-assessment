@@ -26,7 +26,13 @@ struct WeatherAppApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
+                WeatherView(viewModel: WeatherViewModel(
+                    locationManager: LocationManager(),
+                    weatherService: WeatherClient(),
+                    favouritesStore: FavouritesStore(
+                        modelContext: sharedModelContainer.mainContext
+                    )
+                ))
             }
         }
         .modelContainer(sharedModelContainer)
