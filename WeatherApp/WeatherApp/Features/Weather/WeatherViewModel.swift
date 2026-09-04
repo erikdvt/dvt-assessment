@@ -33,14 +33,20 @@ final class WeatherViewModel: ObservableObject {
         self.weatherService = weatherService
     }
     
-    func fetchWeather() async {
+    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil) async {
         state = .loading
         do {
-            try await locationManager.requestLocationPermission()
-            let coordinates = try await locationManager.getCurrentLocation()
+            var weatherCoordinates = CLLocationCoordinate2D()
             
-            let current = try await weatherService.getCurrentWeather(coordinates: coordinates)
-            let forecast = try await weatherService.getFiveDayWeatherForecast(coordinates: coordinates)
+            if let coordinates {
+                weatherCoordinates = coordinates
+            } else {
+                try await locationManager.requestLocationPermission()
+                weatherCoordinates = try await locationManager.getCurrentLocation()
+            }
+            
+            let current = try await weatherService.getCurrentWeather(coordinates: weatherCoordinates)
+            let forecast = try await weatherService.getFiveDayWeatherForecast(coordinates: weatherCoordinates)
             
             currentWeather = CurrentWeather(response: current)
             fiveDayForecast = makeForecasts(responses: forecast.list)
