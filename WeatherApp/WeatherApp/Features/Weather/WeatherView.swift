@@ -75,6 +75,16 @@ struct WeatherView: View {
                     Text(viewModel.currentWeather?.condition?.displayName.uppercased() ?? "")
                         .font(.title2)
                     
+                    Text(viewModel.currentWeather?.city ?? "")
+                    
+                    Text(viewModel.lastUpdated)
+                    
+                    Spacer()
+                    
+                    Button("Show Favourites") {
+                        print("")
+                    }
+                    
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)

@@ -33,6 +33,11 @@ final class WeatherViewModel: ObservableObject {
         self.weatherService = weatherService
     }
     
+    var lastUpdated: String {
+        guard let timestamp = currentWeather?.lastUpdated else { return "" }
+        return "Last updated: " + timestamp.formattedValue
+    }
+    
     func fetchWeather(coordinates: CLLocationCoordinate2D? = nil) async {
         state = .loading
         do {
