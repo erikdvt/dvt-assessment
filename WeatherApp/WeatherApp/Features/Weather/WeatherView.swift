@@ -7,11 +7,12 @@
 
 import SwiftUI
 import SwiftData
+import CoreLocation
 
 struct WeatherView: View {
     
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
+    @Query private var favourites: [WeatherFavourite]
     @StateObject var viewModel: WeatherViewModel
     
     var body: some View {
@@ -79,10 +80,27 @@ struct WeatherView: View {
                     
                     Text(viewModel.lastUpdated)
                     
-                    Spacer()
-                    
-                    Button("Show Favourites") {
-                        print("")
+                    HStack(spacing: 16) {
+                        Button {
+                            toggleFavourite()
+                        } label: {
+                            Image(systemName: isFavourite ? "star.fill" : "star")
+                                .font(.title2)
+                                .foregroundStyle(.yellow)
+                        }
+                        .accessibilityLabel(isFavourite ? "Remove favourite" : "Save favourite")
+                        
+                        NavigationLink("Favourites") {
+                            FavouritesView { favourite in
+                                await viewModel.fetchWeather(
+                                    coordinates: CLLocationCoordinate2D(
+                                        latitude: favourite.latitude,
+                                        longitude: favourite.longitude
+                                    ),
+                                    cityName: favourite.city
+                                )
+                            }
+                        }
                     }
                     
                     Spacer()
@@ -122,6 +140,33 @@ struct WeatherView: View {
             Color(viewModel.currentWeather?.condition?.backgroundColor ?? "")
                 .ignoresSafeArea()
         }
+    }
+    
+    private var isFavourite: Bool {
+        guard let city = viewModel.currentWeather?.city else { return false }
+        return favourites.contains {
+            $0.city == city
+        }
+    }
+    
+    private func toggleFavourite() {
+        guard let weather = viewModel.currentWeather,
+              let city = weather.city,
+              let coordinates = viewModel.currentCoordinates else { return }
+        
+        if let favourite = favourites.first(where: {
+            $0.city == city
+        }) {
+            modelContext.delete(favourite)
+        } else {
+            modelContext.insert(WeatherFavourite(
+                city: city,
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
+            ))
+        }
+        
+        try? modelContext.save()
     }
 }
 
@@ -186,5 +231,5 @@ struct WeatherForecastRow: View {
 #Preview {
     WeatherView(viewModel: WeatherViewModel(locationManager: MockLocationManager(),
                                             weatherService: MockWeatherClient()))
-        .modelContainer(for: Item.self, inMemory: true)
+    .modelContainer(for: WeatherFavourite.self, inMemory: true)
 }

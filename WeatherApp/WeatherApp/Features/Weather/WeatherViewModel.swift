@@ -23,6 +23,7 @@ final class WeatherViewModel: ObservableObject {
     @Published private(set) var state: WeatherViewState = .idle
     @Published var fiveDayForecast: [WeatherForecast] = []
     @Published var currentWeather: CurrentWeather?
+    @Published private(set) var currentCoordinates: CLLocationCoordinate2D?
     
     private let locationManager: LocationManagerType
     private let weatherService: WeatherClientType
@@ -38,7 +39,8 @@ final class WeatherViewModel: ObservableObject {
         return "Last updated: " + timestamp.formattedValue
     }
     
-    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil) async {
+    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil,
+                      cityName: String? = nil) async {
         state = .loading
         do {
             var weatherCoordinates = CLLocationCoordinate2D()
@@ -53,7 +55,9 @@ final class WeatherViewModel: ObservableObject {
             let current = try await weatherService.getCurrentWeather(coordinates: weatherCoordinates)
             let forecast = try await weatherService.getFiveDayWeatherForecast(coordinates: weatherCoordinates)
             
+            currentCoordinates = weatherCoordinates
             currentWeather = CurrentWeather(response: current)
+            currentWeather?.city = cityName ?? currentWeather?.city
             fiveDayForecast = makeForecasts(responses: forecast.list)
             state = .loaded
         } catch {
