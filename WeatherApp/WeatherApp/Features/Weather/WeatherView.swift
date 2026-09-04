@@ -27,6 +27,7 @@ struct WeatherView: View {
             }
         }
         .task {
+            guard viewModel.state == .idle else { return }
             await viewModel.fetchWeather()
         }
     }
