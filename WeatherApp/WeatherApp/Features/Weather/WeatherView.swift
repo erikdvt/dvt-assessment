@@ -184,6 +184,7 @@ struct WeatherForecastRow: View {
 }
 
 #Preview {
-    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
+    WeatherView(viewModel: WeatherViewModel(locationManager: MockLocationManager(),
+                                            weatherService: MockWeatherClient()))
         .modelContainer(for: Item.self, inMemory: true)
 }

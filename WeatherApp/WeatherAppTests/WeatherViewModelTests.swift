@@ -9,13 +9,6 @@ import Testing
 import CoreLocation
 @testable import WeatherApp
 
-enum MockError: Error {
-    case permissionError
-    case locationError
-    case currentNetworkError
-    case forecastNetworkError
-}
-
 @MainActor
 struct WeatherViewModelTests {
 
