@@ -39,8 +39,7 @@ final class WeatherViewModel: ObservableObject {
         return "Last updated: " + timestamp.formattedValue
     }
     
-    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil,
-                      cityName: String? = nil) async {
+    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil) async {
         state = .loading
         do {
             var weatherCoordinates = CLLocationCoordinate2D()
@@ -57,7 +56,6 @@ final class WeatherViewModel: ObservableObject {
             
             currentCoordinates = weatherCoordinates
             currentWeather = CurrentWeather(response: current)
-            currentWeather?.city = cityName ?? currentWeather?.city
             fiveDayForecast = makeForecasts(responses: forecast.list)
             state = .loaded
         } catch {

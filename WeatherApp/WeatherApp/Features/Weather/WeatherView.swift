@@ -95,10 +95,7 @@ struct WeatherView: View {
                                 await viewModel.fetchWeather(
                                     coordinates: CLLocationCoordinate2D(
                                         latitude: favourite.latitude,
-                                        longitude: favourite.longitude
-                                    ),
-                                    cityName: favourite.city
-                                )
+                                        longitude: favourite.longitude))
                             }
                         }
                     }
