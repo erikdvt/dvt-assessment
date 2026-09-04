@@ -25,7 +25,7 @@ struct WeatherAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: OpenWeatherMapAPIClient()))
+            WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
         }
         .modelContainer(sharedModelContainer)
     }

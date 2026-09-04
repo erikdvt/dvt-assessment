@@ -15,12 +15,56 @@ struct WeatherView: View {
     @StateObject var viewModel: WeatherViewModel
     
     var body: some View {
+        Group {
+            switch viewModel.state {
+            case .idle, .loading:
+                loadingView
+            case .loaded:
+                weatherContent
+            case .failed(let message):
+                errorView(message: message)
+            }
+        }
+        .task {
+            await viewModel.fetchWeather()
+        }
+    }
+    
+    private var loadingView: some View {
+        VStack(spacing: 0) {
+            ProgressView()
+                .tint(.white)
+            
+            Text("Loading weather...")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .foregroundStyle(.white)
+        .background(Color("cloudy"))
+    }
+    
+    private func errorView(message: String) -> some View {
+        VStack(spacing: 0) {
+            Image(systemName: "exclamationmark.triangle")
+            
+            Text(message)
+            
+            Button("Try Again") {
+                Task {
+                    await viewModel.fetchWeather()
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .foregroundStyle(.white)
+        .background(Color("cloudy"))
+    }
+    
+    private var weatherContent: some View {
         let portraitHeight = max(
             UIScreen.main.bounds.width,
-            UIScreen.main.bounds.height
-        )
+            UIScreen.main.bounds.height)
         
-        ScrollView {
+        return ScrollView {
             VStack(spacing: 0) {
                 VStack {
                     Spacer()
@@ -68,7 +112,6 @@ struct WeatherView: View {
             Color(viewModel.currentWeather?.condition?.backgroundColor ?? "")
                 .ignoresSafeArea()
         }
-        .task { await viewModel.fetchWeather()}
     }
 }
 
@@ -131,6 +174,6 @@ struct WeatherForecastRow: View {
 }
 
 #Preview {
-    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: OpenWeatherMapAPIClient()))
+    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
         .modelContainer(for: Item.self, inMemory: true)
 }
