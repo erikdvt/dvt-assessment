@@ -78,6 +78,8 @@ struct WeatherView: View {
                     
                     Text(viewModel.lastUpdated)
                     
+                    Spacer()
+                    
                     HStack(spacing: 16) {
                         Button {
                             viewModel.toggleFavourite()
@@ -98,6 +100,13 @@ struct WeatherView: View {
                                             longitude: favourite.longitude))
                                 }
                         }
+                    }
+                    
+                    Button {
+                        viewModel.showingLocationPicker = true
+                    } label: {
+                        Label("Pick location", systemImage: "mappin.and.ellipse")
+                            .foregroundStyle(.white)
                     }
                     
                     Spacer()
@@ -136,6 +145,17 @@ struct WeatherView: View {
         .background {
             Color(viewModel.currentWeather?.condition?.backgroundColor ?? "")
                 .ignoresSafeArea()
+        }
+        .sheet(isPresented: $viewModel.showingLocationPicker) {
+            NavigationStack {
+                LocationPickerView(
+                    initialCoordinate: viewModel.currentCoordinates
+                    ?? CLLocationCoordinate2D()) { coordinates in
+                        Task {
+                            await viewModel.fetchWeather(coordinates: coordinates)
+                        }
+                    }
+            }
         }
     }
     

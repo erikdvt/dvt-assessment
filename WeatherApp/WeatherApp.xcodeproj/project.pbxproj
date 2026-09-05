@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D45C0EA6304C6E8A00DBA964 /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */; };
+		D45C0EA7304C6E8A00DBA964 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = D45C0EA8304C6E8A00DBA964 /* GoogleMaps */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D414AC96303F0A9D001EE510 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D45C0EA6304C6E8A00DBA964 /* GooglePlacesSwift in Frameworks */,
+				D45C0EA7304C6E8A00DBA964 /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +98,8 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
+				D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */,
+				D45C0EA8304C6E8A00DBA964 /* GoogleMaps */,
 			);
 			productName = WeatherApp;
 			productReference = D414AC86303F0A9B001EE510 /* WeatherApp.app */;
@@ -147,6 +156,10 @@
 			);
 			mainGroup = D414AC7D303F0A9B001EE510;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+				D45C0EA9304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D414AC87303F0A9B001EE510 /* Products */;
 			projectDirPath = "";
@@ -488,6 +501,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 11.1.0;
+			};
+		};
+		D45C0EA9304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlacesSwift;
+		};
+		D45C0EA8304C6E8A00DBA964 /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D45C0EA9304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D414AC7E303F0A9B001EE510 /* Project object */;
 }

@@ -7,9 +7,17 @@
 
 import SwiftUI
 import SwiftData
+import GooglePlacesSwift
+import GoogleMaps
 
 @main
 struct WeatherAppApp: App {
+    init() {
+        let apiKey = "AIzaSyBk30kb8UXZwJsdxsBuzsQaO6f8iKhZGTA"
+        _ = PlacesClient.provideAPIKey(apiKey)
+        _ = GMSServices.provideAPIKey(apiKey)
+    }
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             WeatherFavourite.self

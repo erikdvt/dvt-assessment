@@ -30,7 +30,10 @@ The application follows the **MVVM** architecture:
 
 ## Dependencies
 
-There are no external application dependencies.
+The following dependencies are installed via swift package manager:
+
+- GooglePlaces
+- GoogleMaps
 
 ### SwiftLint
 
