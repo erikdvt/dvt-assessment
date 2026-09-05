@@ -21,10 +21,11 @@ enum WeatherViewState: Equatable {
 final class WeatherViewModel: ObservableObject {
     
     @Published private(set) var state: WeatherViewState = .idle
-    @Published var fiveDayForecast: [WeatherForecast] = []
-    @Published var currentWeather: CurrentWeather?
+    @Published private(set) var fiveDayForecast: [WeatherForecast] = []
+    @Published private(set) var currentWeather: CurrentWeather?
     @Published private(set) var currentCoordinates: CLLocationCoordinate2D?
     @Published private(set) var favourites: [WeatherFavourite] = []
+    @Published var showingLocationPicker: Bool = false
     
     private let locationManager: LocationManagerType
     private let weatherService: WeatherClientType
