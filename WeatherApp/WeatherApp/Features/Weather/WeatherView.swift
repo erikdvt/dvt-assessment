@@ -6,12 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
+import CoreLocation
 
 struct WeatherView: View {
     
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
     @StateObject var viewModel: WeatherViewModel
     
     var body: some View {
@@ -26,6 +24,7 @@ struct WeatherView: View {
             }
         }
         .task {
+            guard viewModel.state == .idle else { return }
             await viewModel.fetchWeather()
         }
     }
@@ -75,6 +74,32 @@ struct WeatherView: View {
                     Text(viewModel.currentWeather?.condition?.displayName.uppercased() ?? "")
                         .font(.title2)
                     
+                    Text(viewModel.currentWeather?.city ?? "")
+                    
+                    Text(viewModel.lastUpdated)
+                    
+                    HStack(spacing: 16) {
+                        Button {
+                            viewModel.toggleFavourite()
+                        } label: {
+                            Image(systemName: isFavourite ? "star.fill" : "star")
+                                .font(.title2)
+                                .foregroundStyle(.yellow)
+                        }
+                        .accessibilityLabel(isFavourite ? "Remove favourite" : "Save favourite")
+                        
+                        NavigationLink("Favourites") {
+                            FavouritesView(
+                                favourites: viewModel.favourites,
+                                onDelete: viewModel.deleteFavourite) { favourite in
+                                    await viewModel.fetchWeather(
+                                        coordinates: CLLocationCoordinate2D(
+                                            latitude: favourite.latitude,
+                                            longitude: favourite.longitude))
+                                }
+                        }
+                    }
+                    
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -111,6 +136,13 @@ struct WeatherView: View {
         .background {
             Color(viewModel.currentWeather?.condition?.backgroundColor ?? "")
                 .ignoresSafeArea()
+        }
+    }
+    
+    private var isFavourite: Bool {
+        guard let city = viewModel.currentWeather?.city else { return false }
+        return viewModel.favourites.contains {
+            $0.city == city
         }
     }
 }
@@ -174,6 +206,7 @@ struct WeatherForecastRow: View {
 }
 
 #Preview {
-    WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
-        .modelContainer(for: Item.self, inMemory: true)
+    WeatherView(viewModel: WeatherViewModel(locationManager: MockLocationManager(),
+                                            weatherService: MockWeatherClient(),
+                                            favouritesStore: MockFavouritesStore()))
 }

@@ -9,13 +9,6 @@ import Testing
 import CoreLocation
 @testable import WeatherApp
 
-enum MockError: Error {
-    case permissionError
-    case locationError
-    case currentNetworkError
-    case forecastNetworkError
-}
-
 @MainActor
 struct WeatherViewModelTests {
 
@@ -26,7 +19,8 @@ struct WeatherViewModelTests {
         service: MockWeatherClient = MockWeatherClient()) -> WeatherViewModel {
         WeatherViewModel(
             locationManager: location,
-            weatherService: service
+            weatherService: service,
+            favouritesStore: MockFavouritesStore()
         )
     }
 

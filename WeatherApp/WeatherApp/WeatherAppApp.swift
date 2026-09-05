@@ -12,7 +12,7 @@ import SwiftData
 struct WeatherAppApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            WeatherFavourite.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +25,15 @@ struct WeatherAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WeatherView(viewModel: WeatherViewModel(locationManager: LocationManager(), weatherService: WeatherClient()))
+            NavigationStack {
+                WeatherView(viewModel: WeatherViewModel(
+                    locationManager: LocationManager(),
+                    weatherService: WeatherClient(),
+                    favouritesStore: FavouritesStore(
+                        modelContext: sharedModelContainer.mainContext
+                    )
+                ))
+            }
         }
         .modelContainer(sharedModelContainer)
     }

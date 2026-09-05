@@ -23,25 +23,65 @@ final class WeatherViewModel: ObservableObject {
     @Published private(set) var state: WeatherViewState = .idle
     @Published var fiveDayForecast: [WeatherForecast] = []
     @Published var currentWeather: CurrentWeather?
+    @Published private(set) var currentCoordinates: CLLocationCoordinate2D?
+    @Published private(set) var favourites: [WeatherFavourite] = []
     
     private let locationManager: LocationManagerType
     private let weatherService: WeatherClientType
+    private let favouritesStore: FavouritesStoreType
     
     init(locationManager: LocationManagerType,
-         weatherService: WeatherClientType) {
+         weatherService: WeatherClientType,
+         favouritesStore: FavouritesStoreType) {
         self.locationManager = locationManager
         self.weatherService = weatherService
+        self.favouritesStore = favouritesStore
+        loadFavourites()
+    }
+
+    func toggleFavourite() {
+        guard let city = currentWeather?.city,
+              let coordinates = currentCoordinates else { return }
+
+        if let favourite = favourites.first(where: { $0.city == city }) {
+            favouritesStore.delete(favourite)
+        } else {
+            favouritesStore.add(
+                city: city,
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude
+            )
+        }
+
+        loadFavourites()
+    }
+
+    func deleteFavourite(_ favourite: WeatherFavourite) {
+        favouritesStore.delete(favourite)
+        loadFavourites()
     }
     
-    func fetchWeather() async {
+    var lastUpdated: String {
+        guard let timestamp = currentWeather?.lastUpdated else { return "" }
+        return "Last updated: " + timestamp.formattedValue
+    }
+    
+    func fetchWeather(coordinates: CLLocationCoordinate2D? = nil) async {
         state = .loading
         do {
-            try await locationManager.requestLocationPermission()
-            let coordinates = try await locationManager.getCurrentLocation()
+            var weatherCoordinates = CLLocationCoordinate2D()
             
-            let current = try await weatherService.getCurrentWeather(coordinates: coordinates)
-            let forecast = try await weatherService.getFiveDayWeatherForecast(coordinates: coordinates)
+            if let coordinates {
+                weatherCoordinates = coordinates
+            } else {
+                try await locationManager.requestLocationPermission()
+                weatherCoordinates = try await locationManager.getCurrentLocation()
+            }
             
+            let current = try await weatherService.getCurrentWeather(coordinates: weatherCoordinates)
+            let forecast = try await weatherService.getFiveDayWeatherForecast(coordinates: weatherCoordinates)
+            
+            currentCoordinates = weatherCoordinates
             currentWeather = CurrentWeather(response: current)
             fiveDayForecast = makeForecasts(responses: forecast.list)
             state = .loaded
@@ -84,5 +124,9 @@ final class WeatherViewModel: ObservableObject {
                     day: day
                 )
             }
+    }
+
+    private func loadFavourites() {
+        favourites = favouritesStore.fetch()
     }
 }

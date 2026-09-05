@@ -1,13 +1,12 @@
 //
 //  MockLocationManger.swift
-//  WeatherAppTests
+//  WeatherApp
 //
-//  Created by Erik Egers on 2026/09/03.
+//  Created by Erik Egers on 2026/09/04.
 //
 
 import Foundation
 import CoreLocation
-@testable import WeatherApp
 
 class MockLocationManager: LocationManagerType {
     

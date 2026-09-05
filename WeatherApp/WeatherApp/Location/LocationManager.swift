@@ -64,9 +64,14 @@ final class LocationManager: NSObject, LocationManagerType, CLLocationManagerDel
             throw LocationError.permissionDenied
         }
         
-        return try await withCheckedThrowingContinuation { continuation in
-            self.continuation = continuation
-            manager.requestLocation()
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                self.continuation = continuation
+                manager.requestLocation()
+            }
+        } onCancel: {
+            self.continuation?.resume(throwing: CancellationError())
+            self.continuation = nil
         }
     }
 }
