@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D45C0EA6304C6E8A00DBA964 /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D414AC96303F0A9D001EE510 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D45C0EA6304C6E8A00DBA964 /* GooglePlacesSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +96,7 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
+				D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */,
 			);
 			productName = WeatherApp;
 			productReference = D414AC86303F0A9B001EE510 /* WeatherApp.app */;
@@ -147,6 +153,9 @@
 			);
 			mainGroup = D414AC7D303F0A9B001EE510;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D414AC87303F0A9B001EE510 /* Products */;
 			projectDirPath = "";
@@ -488,6 +497,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 11.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D45C0EA5304C6E8A00DBA964 /* GooglePlacesSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D45C0EA4304C6E8A00DBA964 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlacesSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D414AC7E303F0A9B001EE510 /* Project object */;
 }
