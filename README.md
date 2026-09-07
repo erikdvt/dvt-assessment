@@ -71,10 +71,10 @@ WeatherApp.xcodeproj
 Once the project is open:
 
 1. Select an iOS Simulator or connected device.
-2. Select the application scheme.
+2. Wait for swift packages to resolve.
 3. Press **Run** (`⌘R`) in Xcode.
 
-No additional dependency installation or package setup is required.
+**Note:** For ease of review, API keys are hard-coded into the project. While this is a security vulnerability and would not be appropriate for a production application, the key will be deleted after the review period. The Google API key is restricted to this application and rate-limited to remain within the free usage limits.
 
 ## Testing
 
